@@ -1,0 +1,127 @@
+
+<%- include ("partials/header"); %>
+
+ <!-- Loading Animation -->
+ <div class="loader-container" id="loader">
+  <div class="loader">
+    <div class="loader-coin">
+      <div class="loader-coin-face">$</div>
+      <div class="loader-coin-face">$</div>
+    </div>
+    <div class="loader-text"><span class="typing-cursor"></span></div>
+    <div class="loader-progress">
+      <div class="loader-progress-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Money Rain Container -->
+<div class="money-rain" id="money-rain"></div>
+
+<!-- Flying Money Elements Container -->
+<div id="flying-money-container"></div>
+
+<div class="Dashboard fade-in" >
+
+  <div class="month-display">
+      <div class="shimmer"></div>
+      <label for="month"><i class="fas fa-calendar-alt"></i> Select Month:</label>
+      <input class="month-input" type="month" id="month" name="month" />
+      <div class="month-icons">
+        <i class="fas fa-chart-line"></i>
+        <i class="fas fa-coins"></i>
+        <i class="fas fa-money-bill-wave"></i>
+      </div>
+  </div>
+  <div class="dashboard-content">
+
+    <!-- PROFILE 1 -->
+
+    <div class="profile">
+      <div class="expense-container">
+        <h3><i class="fas fa-user-circle"></i> Personal Budget</h3>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 50%"><i class="fas fa-plane"></i> Travel</div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 50%"><i class="fas fa-utensils"></i> Food</div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 0%"><i class="fas fa-shopping-cart"></i> Shopping</div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 0%"><i class="fas fa-ellipsis-h"></i> Other</div>
+        </div>
+      
+      </div>
+
+      <div class="overall-budget">
+        <h3><i class="fas fa-piggy-bank"></i> Overall Savings</h3>
+        <div class="progress-container">
+          <svg class="progress-ring" width="300" height="300">
+            <circle
+              class="progress-ring-bg"
+              cx="150"
+              cy="150"
+              r="140"
+            ></circle>
+            <circle
+              class="progress-ring-fill"
+              cx="150"
+              cy="150"
+              r="140"
+            ></circle>
+          </svg>
+          <div class="progress-text"></div>
+        </div>
+      </div>
+    </div>
+     
+    <!-- PROFILE 2 -->
+
+    <div class="profile ">
+      <div class="expense-container">
+        <h3><i class="fas fa-briefcase"></i> Business Budget</h3>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 50%"><i class="fas fa-plane"></i> Travel</div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 50%"><i class="fas fa-utensils"></i> Food</div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: 0%"><i class="fas fa-shopping-cart"></i> Shopping</div>
+        </div>
+      </div>
+
+      <div class="overall-budget">
+        <h3><i class="fas fa-chart-pie"></i> Budget Overview</h3>
+        <div class="progress-container">
+          <svg class="progress-ring" width="300" height="300">
+            <circle
+              class="progress-ring-bg"
+              cx="150"
+              cy="150"
+              r="140"
+            ></circle>
+            <circle
+              class="progress-ring-fill"
+              cx="150"
+              cy="150"
+              r="140"
+            ></circle>
+          </svg>
+          <div class="progress-text">20%</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <%- include ("partials/footer"); %>
+

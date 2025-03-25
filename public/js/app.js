@@ -11,4 +11,8 @@ function updateProgress(remainingPercent) {
   
   // Example: Set progress to 50%
   updateProgress(10);
+
+
+  
+
   

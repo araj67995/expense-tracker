@@ -1,0 +1,75 @@
+<%- include('partials/header'); -%>
+
+
+<!-- ADD EXPENSES -->
+    
+<section>
+  <div class="main-container slide-in">
+     <div class="add-expenses">
+      <h3><i class="fas fa-receipt"></i> Add New Expense</h3>
+      <form action="/expense" method="post" id="expense-form">
+
+        <select name="profile" id="profile">
+          <option value="">Select Profile</option>
+          <option value="profile1">Profile 1</option>
+          <option value="profile2">Profile 2</option>
+        </select>
+
+        <select name="expense-type" id="expense-type">
+          <option value="">Select Expense Type</option>
+          <option value="food"><i class="fas fa-utensils"></i> Food</option>
+          <option value="travel"><i class="fas fa-plane"></i> Travel</option>
+          <option value="shopping"><i class="fas fa-shopping-cart"></i> Shopping</option>
+          <option value="other"><i class="fas fa-ellipsis-h"></i> Other</option>
+        </select>
+
+        <input type="date" name="date" id="date">
+        
+        <div class="money-input">
+          <input type="number" name="amount" id="amount" placeholder="Enter Amount">
+        </div>
+        
+        <textarea name="description" id="description" placeholder="Description"></textarea>
+        
+        <button class="btn" type="submit"><i class="fas fa-plus-circle"></i> Add Expense</button>
+      </form>
+     </div>
+
+
+     <div class="main-expense-list">
+      <div class="expense-list ">
+        <h2><i class="fas fa-user-circle"></i> Profile Name</h2>
+        <h4><i class="fas fa-dollar-sign"></i> Amount: 3000</h4>
+        <h4><i class="fas fa-calendar-alt"></i> ON 01/01/2025</h4>
+        <h4><i class="fas fa-shopping-cart"></i> For Shopping</h4>
+        <h4><i class="fas fa-info-circle"></i> Description</h4>
+          <br>  
+        <button class="btn delete-btn "><i class="fas fa-trash-alt"></i> Delete</button>
+       </div>
+
+       <div class="expense-list ">
+        <h2><i class="fas fa-user-circle"></i> Profile Name</h2>
+        <h4><i class="fas fa-dollar-sign"></i> Amount: 3000</h4>
+        <h4><i class="fas fa-calendar-alt"></i> ON 01/01/2025</h4>
+        <h4><i class="fas fa-shopping-cart"></i> For Shopping</h4>
+        <h4><i class="fas fa-info-circle"></i> Description</h4>
+          <br>  
+        <button class="btn delete-btn"><i class="fas fa-trash-alt"></i> Delete</button>
+       </div>
+
+       <div class="expense-list ">
+        <h2><i class="fas fa-user-circle"></i> Profile Name</h2>
+        <h4><i class="fas fa-dollar-sign"></i> Amount: 3000</h4>
+        <h4><i class="fas fa-calendar-alt"></i> ON 01/01/2025</h4>
+        <h4><i class="fas fa-shopping-cart"></i> For Shopping</h4>
+        <h4><i class="fas fa-info-circle"></i> Description</h4>
+          <br>  
+        <button class="btn delete-btn"><i class="fas fa-trash-alt"></i> Delete</button>
+       </div>
+
+     </div>
+
+  </div>
+</section>
+
+<%- include ("partials/footer"); %>
