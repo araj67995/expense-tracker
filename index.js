@@ -124,32 +124,29 @@ app.post("/edit", (req, res) => {
 // SAVE
 
 app.post("/save", (req, res) => {
-  Profile.findByIdAndDelete(req.body.id)
-    .then(() => {
-      const name = req.body.name;
-      const income = req.body.income;
-      const budget = req.body.budget;
-      const saving = req.body.saving;
 
-      const profile = new Profile({
+  const name = req.body.name;
+  const income = req.body.income;
+  const budget = req.body.budget;
+  const saving = req.body.saving;
+
+  Profile.updateOne(
+    { _id: req.body.id }, // Filter condition
+    {
+      $set: {
         name: name,
         income: income,
         budget: budget,
-        saving: saving,
-      });
-
-      profile
-        .save()
-        .then(() => {
-          res.redirect("/profile");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        saving: saving
+      }
+    }
+  )
+  .then(() => {
+    res.redirect("/profile");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 });
 
 // DELETE
