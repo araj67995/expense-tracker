@@ -21,14 +21,39 @@ const profileSchema = new mongoose.Schema({
   saving: Number,
 });
 
+const expenseSchema = new mongoose.Schema({
+  profile: String,
+  expense: String,
+  date: String,
+  price: Number,
+  des: String,
+  profileId: String,
+});
+
 const Profile = mongoose.model("Profiles", profileSchema);
+const Expense = mongoose.model(" Expenses", expenseSchema);
 
 app.get("/", (req, res) => {
   res.render("dashboard");
 });
 
 app.get("/expense", (req, res) => {
-  res.render("expense");
+  Profile.find()
+    .then((foundProfile) => {
+      Expense.find()
+        .then((foundExpense) => {
+          res.render("expense", {
+            Profiles: foundProfile,
+            Expense: foundExpense,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get("/profile", (req, res) => {
@@ -130,12 +155,77 @@ app.post("/save", (req, res) => {
 // DELETE
 
 app.post("/delete", (req, res) => {
-  const _id = req.body.id;
+  const _id = req.body.id?.trim(); // Ensure id is trimmed and valid
+  const referer = req.get("Referer");
 
-  Profile.findByIdAndDelete(_id)
+  // Validate if _id is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    console.error("Invalid ID format:", _id);
+    return res.status(400).send("Invalid ID provided.");
+  }
+
+  // Determine which collection to delete from
+  const model = referer === "http://localhost:3000/expense" ? Expense : Profile;
+
+  model
+    .findByIdAndDelete(_id)
+    .then((deletedItem) => {
+      if (!deletedItem) {
+        console.error("Item not found with ID:", _id);
+        return res.status(404).send("Item not found.");
+      }
+
+      if (model === Profile) {
+        Expense.deleteMany({ profileId: _id })
+          .then(() => {
+            console.log("Associated expenses deleted.");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+
+      // Redirect to the appropriate page
+      const redirectUrl =
+        referer === "http://localhost:3000/expense" ? "/expense" : "/profile";
+      res.redirect(redirectUrl);
+    })
+    .catch((err) => {
+      console.error("Error deleting item:", err);
+      res.status(500).send("Internal Server Error.");
+    });
+});   
+
+// EXPENSE SECTION
+
+app.post("/expense", (req, res) => {
+  const profile = req.body.profile;
+  const expenseType = req.body.expenseType;
+  const date = req.body.date;
+  const amount = req.body.amount;
+  const des = req.body.description;
+
+  const [name, budget, id] = profile.split(",");
+
+  const remainingBudget = budget - amount;
+
+  const expense = new Expense({
+    profile: name,
+    expense: expenseType,
+    date: date,
+    price: amount,
+    des: des,
+    profileId: id.replace(/\s/g, ""),
+  });
+
+  expense.save();
+
+  Profile.findOneAndUpdate(
+    { name: name },
+    { $set: { budget: remainingBudget } }
+  )
     .then(() => {
-      console.log("item was deleted successfully.");
-      res.redirect("/profile");
+      res.redirect("/expense");
     })
     .catch((err) => {
       console.log(err);
