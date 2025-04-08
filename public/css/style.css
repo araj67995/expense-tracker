@@ -183,7 +183,7 @@ nav {
 .progress-ring-fill {
   stroke: #e77a27;
   stroke-dasharray: 879.6;
-  stroke-dashoffset: 260;
+
   transition: stroke-dashoffset 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   filter: drop-shadow(0 0 5px rgba(253, 187, 45, 0.7));
 }
@@ -212,6 +212,12 @@ nav {
   color: #fff;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   animation: textPulse 2s infinite alternate;
+}
+
+.progress-text p {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.5;
 }
 
 /* DASHBOARD */
@@ -1420,4 +1426,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 12px;
   height: 30px;
   width: 80px;
+}
+
+#message {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgb(204, 186, 186);
 }

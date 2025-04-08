@@ -1,8 +1,7 @@
-
 <%- include ("partials/header"); %>
 
- <!-- Loading Animation -->
- <div class="loader-container" id="loader">
+<!-- Loading Animation -->
+<div class="loader-container" id="loader">
   <div class="loader">
     <div class="loader-coin">
       <div class="loader-coin-face">$</div>
@@ -21,107 +20,86 @@
 <!-- Flying Money Elements Container -->
 <div id="flying-money-container"></div>
 
-<div class="Dashboard fade-in" >
-
+<div class="Dashboard fade-in">
   <div class="month-display">
-      <div class="shimmer"></div>
-      <label for="month"><i class="fas fa-calendar-alt"></i> Select Month:</label>
-      <input class="month-input" type="month" id="month" name="month" />
-      <div class="month-icons">
-        <i class="fas fa-chart-line"></i>
-        <i class="fas fa-coins"></i>
-        <i class="fas fa-money-bill-wave"></i>
-      </div>
+    <div class="shimmer"></div>
+    <label for="month"><i class="fas fa-calendar-alt"></i> Select Month:</label>
+    <input class="month-input" type="month" id="month" name="month" />
+    <div class="month-icons">
+      <i class="fas fa-chart-line"></i>
+      <i class="fas fa-coins"></i>
+      <i class="fas fa-money-bill-wave"></i>
+    </div>
   </div>
+
+  <!-- PROFILE  -->
+  <% profiles.forEach(profile => { %>
   <div class="dashboard-content">
-
-    <!-- PROFILE 1 -->
-
     <div class="profile">
       <div class="expense-container">
-        <h3><i class="fas fa-user-circle"></i> Personal Budget</h3>
+        <h3><i class="fas fa-user-circle"></i> <%= profile.name %> (Budget: <%= profile.budget %>)</h3>
+        
+        <!-- Travel -->
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 50%"><i class="fas fa-plane"></i> Travel</div>
+          <div class="progress-bar" style="width: <%= profile.percentages.travel %>%;">
+            <i class="fas fa-plane"></i> Travel </div>
         </div>
 
+        <!-- Food -->
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 50%"><i class="fas fa-utensils"></i> Food</div>
+          <div class="progress-bar" style="width: <%= profile.percentages.food %>%;">
+            <i class="fas fa-utensils"></i> Food  </div>
         </div>
 
+        <!-- Shopping -->
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 0%"><i class="fas fa-shopping-cart"></i> Shopping</div>
+          <div class="progress-bar" style="width: <%= profile.percentages.shopping %>%;">
+            <i class="fas fa-shopping-cart"></i> Shopping </div>
         </div>
 
+        <!-- Other -->
         <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 0%"><i class="fas fa-ellipsis-h"></i> Other</div>
+          <div class="progress-bar" style="width: <%= profile.percentages.other %>%;">
+            <i class="fas fa-ellipsis-h"></i> Other </div>
         </div>
-      
+
       </div>
-
-      <div class="overall-budget">
-        <h3><i class="fas fa-piggy-bank"></i> Overall Savings</h3>
-        <div class="progress-container">
-          <svg class="progress-ring" width="300" height="300">
-            <circle
-              class="progress-ring-bg"
-              cx="150"
-              cy="150"
-              r="140"
-            ></circle>
-            <circle
-              class="progress-ring-fill"
-              cx="150"
-              cy="150"
-              r="140"
-            ></circle>
-          </svg>
-          <div class="progress-text"></div>
+      <div class="progress-container">
+        <svg class="progress-ring" width="300" height="300">
+          <circle class="progress-ring-bg" cx="150" cy="150" r="140"></circle>
+          <circle id="progress-<%= profile.name.replace(/\s/g, '') %>" class="progress-ring-fill" cx="150" cy="150" r="140"></circle>
+        </svg>
+        <div class="progress-text">
+          <%= profile.remainingBudget %>
+          <P>Remaining-Money</P>
         </div>
-      </div>
-    </div>
-     
-    <!-- PROFILE 2 -->
+       <div>
 
-    <div class="profile ">
-      <div class="expense-container">
-        <h3><i class="fas fa-briefcase"></i> Business Budget</h3>
-        <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 50%"><i class="fas fa-plane"></i> Travel</div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 50%"><i class="fas fa-utensils"></i> Food</div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar" style="width: 0%"><i class="fas fa-shopping-cart"></i> Shopping</div>
-        </div>
-      </div>
-
-      <div class="overall-budget">
-        <h3><i class="fas fa-chart-pie"></i> Budget Overview</h3>
-        <div class="progress-container">
-          <svg class="progress-ring" width="300" height="300">
-            <circle
-              class="progress-ring-bg"
-              cx="150"
-              cy="150"
-              r="140"
-            ></circle>
-            <circle
-              class="progress-ring-fill"
-              cx="150"
-              cy="150"
-              r="140"
-            ></circle>
-          </svg>
-          <div class="progress-text">20%</div>
-        </div>
+       </div>
       </div>
     </div>
-
   </div>
+  <% }) %>
 </div>
 
-  <%- include ("partials/footer"); %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const radius = 140;
+    const circumference = 2 * Math.PI * radius;
 
+    <% profiles.forEach(profile => { %>
+      (function() {
+        const budget = <%= profile.budget %>;
+        const remaining = <%= profile.remainingBudget %>;
+        const percent = (remaining / budget) * 100;
+        const offset = circumference - (percent / 100) * circumference;
+
+        const circle = document.getElementById("progress-<%= profile.name.replace(/\s/g, '') %>");
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+      })();
+    <% }) %>
+  });
+</script>
+
+<%- include ("partials/footer"); %>

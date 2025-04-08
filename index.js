@@ -16,9 +16,9 @@ app.use(express.static("public"));
 
 const profileSchema = new mongoose.Schema({
   name: String,
-  income: Number,
-  budget: Number,
-  saving: Number,
+  income:  { type: Number, default: 0, min: 0 },
+  budget:  { type: Number, default: 0, min: 0 },
+  remainingBudget: Number
 });
 
 const expenseSchema = new mongoose.Schema({
@@ -33,8 +33,60 @@ const expenseSchema = new mongoose.Schema({
 const Profile = mongoose.model("Profiles", profileSchema);
 const Expense = mongoose.model(" Expenses", expenseSchema);
 
-app.get("/", (req, res) => {
-  res.render("dashboard");
+app.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find();
+
+    const profileData = await Promise.all(profiles.map(async (profile) => {
+      const expenses = await Expense.find({ profileId: profile._id }); 
+
+      // Object to store total sum per category
+      const expenseSummary = {
+        travel: 0,
+        shopping: 0,
+        food: 0,
+        other: 0
+      };
+
+      // Summing up expenses by category
+      expenses.forEach(expense => {
+        if (expense.expense.toLowerCase() === "travel") {
+          expenseSummary.travel += expense.price;
+        } else if (expense.expense.toLowerCase() === "shopping") {
+          expenseSummary.shopping += expense.price;
+        } else if (expense.expense.toLowerCase() === "other") {
+          expenseSummary.other += expense.price;
+        } else {
+          expenseSummary.food += expense.price;
+        }
+      });
+         // Calculate percentage of each expense category out of budget
+      const calculatePercentage = (amount, budget) => 
+        budget > 0 ? ((amount / budget) * 100).toFixed(2) : 0;
+      
+      const expensePercentages = {
+        travel: calculatePercentage(expenseSummary.travel, profile.budget),
+        shopping: calculatePercentage(expenseSummary.shopping, profile.budget),
+        food: calculatePercentage(expenseSummary.food, profile.budget),
+        other: calculatePercentage(expenseSummary.other, profile.budget),
+      };
+
+      return {
+        name: profile.name,
+        budget: profile.budget,  
+        remainingBudget: profile.remainingBudget,
+        expenses: expenseSummary,
+        percentages: expensePercentages, // Added percentages for all categories
+      };
+    }));
+    
+    // Render dashboard after data is ready
+    res.render("dashboard", { profiles: profileData });
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get("/expense", (req, res) => {
@@ -65,6 +117,7 @@ app.get("/profile", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.render("profile", { Profiles: [] });
     });
 });
 
@@ -86,13 +139,12 @@ app.post("/profile", (req, res) => {
   const name = req.body.name;
   const income = req.body.income;
   const budget = req.body.budget;
-  const saving = req.body.saving;
 
   const profile = new Profile({
     name: name,
     income: income,
     budget: budget,
-    saving: saving,
+    remainingBudget: budget
   });
 
   profile
@@ -103,6 +155,7 @@ app.post("/profile", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+  
 });
 
 // EDIT
@@ -124,11 +177,9 @@ app.post("/edit", (req, res) => {
 // SAVE
 
 app.post("/save", (req, res) => {
-
   const name = req.body.name;
   const income = req.body.income;
   const budget = req.body.budget;
-  const saving = req.body.saving;
 
   Profile.updateOne(
     { _id: req.body.id }, // Filter condition
@@ -137,16 +188,15 @@ app.post("/save", (req, res) => {
         name: name,
         income: income,
         budget: budget,
-        saving: saving
-      }
+        },
     }
   )
-  .then(() => {
-    res.redirect("/profile");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .then(() => {
+      res.redirect("/profile");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // DELETE
@@ -180,7 +230,7 @@ app.post("/delete", (req, res) => {
           .catch((err) => {
             console.log(err);
           });
-      };
+      }
 
       // Redirect to the appropriate page
       const redirectUrl =
@@ -191,7 +241,7 @@ app.post("/delete", (req, res) => {
       console.error("Error deleting item:", err);
       res.status(500).send("Internal Server Error.");
     });
-});   
+});
 
 // EXPENSE SECTION
 
@@ -202,9 +252,9 @@ app.post("/expense", (req, res) => {
   const amount = req.body.amount;
   const des = req.body.description;
 
-  const [name, budget, id] = profile.split(",");
+  const [name, budget, id, remaBudget] = profile.split(",");
 
-  const remainingBudget = budget - amount;
+  const remainingBudget = remaBudget - amount;
 
   const expense = new Expense({
     profile: name,
@@ -219,7 +269,7 @@ app.post("/expense", (req, res) => {
 
   Profile.findOneAndUpdate(
     { name: name },
-    { $set: { budget: remainingBudget } }
+    { $set: { remainingBudget: remainingBudget } }
   )
     .then(() => {
       res.redirect("/expense");

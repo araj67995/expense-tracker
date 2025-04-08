@@ -7,12 +7,15 @@
   <div class="main-container slide-in">
      <div class="add-expenses">
       <h3><i class="fas fa-receipt"></i> Add New Expense</h3>
+      
+      <p id="message"></p>
+
       <form action="/expense" method="post" id="expense-form">
 
         <select name="profile" id="profile" required >
           <option value="">Select Profile</option>
           <% Profiles.forEach((found) => { %>
-            <option value="<%= found.name %>, <%= found.budget %>, <%= found._id %> "> <%= found.name %> </option>
+            <option value="<%= found.name %>, <%= found.budget %>, <%= found._id %>,  <%= found.remainingBudget %> "> <%= found.name %> </option>
           <% }) %>
         </select> 
 
@@ -59,5 +62,49 @@
 
   </div>
 </section>
+
+
+<script>
+  function validateNumbers() {
+      let profileSelect = document.getElementById("profile"); // Get the select dropdown
+      let selectedValue = profileSelect.value; // Get the selected option value
+
+      let message = document.getElementById("message");
+      let submitBtn = document.querySelector("#expense-form button[type='submit']");
+      let amount = parseFloat(document.getElementById("amount").value); // Get expense amount
+
+      if (selectedValue) {
+          let parts = selectedValue.split(", "); // Split "name, budget, id"
+          let budget = parseFloat(parts[3]); // Extract budget value
+
+          // Validate the amount against the budget
+          if (!isNaN(budget) && !isNaN(amount) && amount > budget) {
+              submitBtn.disabled = true;
+              message.textContent = "Error: Expense cannot exceed the remainingbudget!";
+              message.style.color = "red";
+          } else {
+              submitBtn.disabled = false;
+              message.textContent = "";
+          }
+      }
+  }
+
+  // Attach event listeners to profile selection and amount input
+  document.getElementById("profile").addEventListener("change", validateNumbers);
+  document.getElementById("amount").addEventListener("input", validateNumbers);
+
+  // Prevent form submission if validation fails
+  document.getElementById("expense-form").addEventListener("submit", function (event) {
+      let submitBtn = document.querySelector("#expense-form button[type='submit']");
+      if (submitBtn.disabled) {
+          event.preventDefault(); // Stop form submission
+          alert("Please correct the error before submitting.");
+      }
+  });
+</script>
+
+
+
+
 
 <%- include ("partials/footer"); %>
