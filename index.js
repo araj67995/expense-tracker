@@ -18,7 +18,8 @@ const profileSchema = new mongoose.Schema({
   name: String,
   income:  { type: Number, default: 0, min: 0 },
   budget:  { type: Number, default: 0, min: 0 },
-  remainingBudget: Number
+  remainingBudget: Number,
+  month: String
 });
 
 const expenseSchema = new mongoose.Schema({
@@ -139,12 +140,14 @@ app.post("/profile", (req, res) => {
   const name = req.body.name;
   const income = req.body.income;
   const budget = req.body.budget;
+  const month = req.body.month;
 
   const profile = new Profile({
     name: name,
     income: income,
     budget: budget,
-    remainingBudget: budget
+    remainingBudget: budget,
+    month: month,
   });
 
   profile
@@ -180,6 +183,7 @@ app.post("/save", (req, res) => {
   const name = req.body.name;
   const income = req.body.income;
   const budget = req.body.budget;
+  const remaBudget = req.body.remBudget
 
   Profile.updateOne(
     { _id: req.body.id }, // Filter condition
@@ -188,6 +192,7 @@ app.post("/save", (req, res) => {
         name: name,
         income: income,
         budget: budget,
+        remainingBudget: remaBudget,
         },
     }
   )

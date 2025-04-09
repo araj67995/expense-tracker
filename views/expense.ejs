@@ -1,110 +1,133 @@
 <%- include('partials/header'); -%>
 
-
 <!-- ADD EXPENSES -->
-    
+
 <section>
   <div class="main-container slide-in">
-     <div class="add-expenses">
+    <div class="add-expenses">
       <h3><i class="fas fa-receipt"></i> Add New Expense</h3>
-      
+
       <p id="message"></p>
 
       <form action="/expense" method="post" id="expense-form">
-
-        <select name="profile" id="profile" required >
+        <select name="profile" id="profile" required>
           <option value="">Select Profile</option>
           <% Profiles.forEach((found) => { %>
-            <option value="<%= found.name %>, <%= found.budget %>, <%= found._id %>,  <%= found.remainingBudget %> "> <%= found.name %> </option>
+          <option
+            value="<%= found.name %>, <%= found.budget %>, <%= found._id %>,  <%= found.remainingBudget %>, <%=  found.month %>"
+          >
+            <%= found.name %>
+          </option>
           <% }) %>
-        </select> 
+        </select>
 
         <select name="expenseType" id="expense-type" required>
           <option value="">Select Expense Type</option>
           <option value="food"><i class="fas fa-utensils"></i> Food</option>
           <option value="travel"><i class="fas fa-plane"></i> Travel</option>
-          <option value="shopping"><i class="fas fa-shopping-cart"></i> Shopping</option>
+          <option value="shopping">
+            <i class="fas fa-shopping-cart"></i> Shopping
+          </option>
           <option value="other"><i class="fas fa-ellipsis-h"></i> Other</option>
         </select>
 
-        <input type="date" name="date" id="date" required>
-        
+        <input type="date" name="date" id="date" required />
+
         <div class="money-input">
-          <input type="number" name="amount" id="amount" placeholder="Enter Amount" required>
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            placeholder="Enter Amount"
+            required
+          />
         </div>
-        
-        <textarea name="description" id="description" placeholder="Description"></textarea>
-        
-        <button class="btn" type="submit"><i class="fas fa-plus-circle"></i> Add Expense</button>
+
+        <textarea
+          name="description"
+          id="description"
+          placeholder="Description"
+        ></textarea>
+
+        <button class="btn" type="submit">
+          <i class="fas fa-plus-circle"></i> Add Expense
+        </button>
       </form>
-     </div>
+    </div>
 
-
-     <div class="main-expense-list">
-       
+    <div class="main-expense-list">
       <% Expense.forEach((found) => { %>
-         <form action="/delete" method="post">
-
-          <div class="expense-list ">
-            <h2><i class="fas fa-user-circle"></i> <%= found.profile %></h2>
-            <h4><i class="fas fa-dollar-sign"></i> Amount: <%= found.price %></h4>
-            <h4><i class="fas fa-calendar-alt"></i> ON <%= found.date %></h4>
-            <h4><i class="fas fa-shopping-cart"></i> For <%= found.expense %> </h4>
-            <h4><i class="fas fa-info-circle"></i> <%= found.des %></h4>
-              <br>  
-            <button class="btn delete-btn " name="id" value="<%= found._id %> "><i class="fas fa-trash-alt"></i> Delete</button>
-           </div>                    
-
-         </form>
+      <form action="/delete" method="post">
+        <div class="expense-list">
+          <h2><i class="fas fa-user-circle"></i> <%= found.profile %></h2>
+          <h4><i class="fas fa-dollar-sign"></i> Amount: <%= found.price %></h4>
+          <h4><i class="fas fa-calendar-alt"></i> ON <%= found.date %></h4>
+          <h4><i class="fas fa-shopping-cart"></i> For <%= found.expense %></h4>
+          <h4><i class="fas fa-info-circle"></i> <%= found.des %></h4>
+          <br />
+          <button class="btn delete-btn" name="id" value="<%= found._id %> ">
+            <i class="fas fa-trash-alt"></i> Delete
+          </button>
+        </div>
+      </form>
       <% }) %>
-
-     </div>
-
+    </div>
   </div>
 </section>
 
-
 <script>
   function validateNumbers() {
-      let profileSelect = document.getElementById("profile"); // Get the select dropdown
-      let selectedValue = profileSelect.value; // Get the selected option value
+  let profileSelect = document.getElementById("profile");
+  let selectedValue = profileSelect.value;
+  let expenseDateInput = document.getElementById("date");
+  let expenseMonth = expenseDateInput.value.slice(0, 7); // "YYYY-MM"
 
-      let message = document.getElementById("message");
-      let submitBtn = document.querySelector("#expense-form button[type='submit']");
-      let amount = parseFloat(document.getElementById("amount").value); // Get expense amount
+  let message = document.getElementById("message");
+  let submitBtn = document.querySelector("#expense-form button[type='submit']");
+  let amount = parseFloat(document.getElementById("amount").value);
 
-      if (selectedValue) {
-          let parts = selectedValue.split(", "); // Split "name, budget, id"
-          let budget = parseFloat(parts[3]); // Extract budget value
+  if (selectedValue) {
+    let parts = selectedValue.split(", "); 
+    let remainingBudget = parseFloat(parts[3]); 
+    let profileMonth = parts[4]; // Get profile's set month as string (e.g., "2025-04")
 
-          // Validate the amount against the budget
-          if (!isNaN(budget) && !isNaN(amount) && amount > budget) {
-              submitBtn.disabled = true;
-              message.textContent = "Error: Expense cannot exceed the remainingbudget!";
-              message.style.color = "red";
-          } else {
-              submitBtn.disabled = false;
-              message.textContent = "";
-          }
+    if (expenseMonth === profileMonth) {
+      if (!isNaN(remainingBudget) && !isNaN(amount) && amount > remainingBudget) {
+        submitBtn.disabled = true;
+        message.textContent = "❌ Expense exceeds remaining budget!";
+        message.style.color = "red";
+      } else {
+        submitBtn.disabled = false;
+        message.textContent = "";
       }
+    } else {
+      submitBtn.disabled = true;
+      message.textContent = "❌ This expense doesn't match the profile's active month.";
+      message.style.color = "red";
+    }
   }
+}
+
 
   // Attach event listeners to profile selection and amount input
-  document.getElementById("profile").addEventListener("change", validateNumbers);
+  document
+    .getElementById("profile")
+    .addEventListener("change", validateNumbers);
   document.getElementById("amount").addEventListener("input", validateNumbers);
+  document.getElementById("date").addEventListener("change", validateNumbers);
 
   // Prevent form submission if validation fails
-  document.getElementById("expense-form").addEventListener("submit", function (event) {
-      let submitBtn = document.querySelector("#expense-form button[type='submit']");
+  document
+    .getElementById("expense-form")
+    .addEventListener("submit", function (event) {
+      let submitBtn = document.querySelector(
+        "#expense-form button[type='submit']"
+      );
       if (submitBtn.disabled) {
-          event.preventDefault(); // Stop form submission
-          alert("Please correct the error before submitting.");
+        event.preventDefault(); // Stop form submission
+        alert("Please correct the error before submitting.");
       }
-  });
+    });
 </script>
-
-
-
-
 
 <%- include ("partials/footer"); %>

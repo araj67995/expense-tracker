@@ -8,18 +8,15 @@
         <input type="text" name="name" id="profile" placeholder="Enter Profile Name"  value="<%= found.name  %>">
   
         <div class="money-input">
-          <input type="number" name="income" id="num1" placeholder="Your Income"  value="<%= found.income %>" oninput="calculateDifference()" required>
+          <input type="number" name="income" id="num1" placeholder="Your Income"  value="<%= found.income %>" required>
         </div>
   
         <div class="money-input">
-          <input type="number" name="budget" id="num2" placeholder="Your Budget"  value="<%= found.budget %>" oninput="calculateDifference()" required>
+          <input type="number" name="budget" id="Budget" placeholder="Your Budget"  value="<%= found.budget %>" oninput="calculateDifference()" required>
         </div>
              
         <input type="hidden" name="id" value="<%= found._id %>" >
-
-        <div class="money-input">
-          <input type="number" name="saving" id="result" value="<%= found.saving %>" placeholder="Your Savings" readonly>
-        </div>
+        <input type="hidden" id="remBudget" name="remBudget">
   
         <button class="btn" type="submit"><i class="fas fa-save"></i> Add Profile & Budget</button>
 
@@ -27,17 +24,16 @@
 
   </div>
 
-  <script>
-    // Function to calculate the difference
-    function calculateDifference() {
-        const num1 = parseFloat(document.getElementById('num1').value) || 0;
-        const num2 = parseFloat(document.getElementById('num2').value) || 0;
-        document.getElementById('result').value = num1 - num2;
-    }
-  
-    // Attach event listeners to input fields
-    document.getElementById('num1').addEventListener('input', calculateDifference);
-    document.getElementById('num2').addEventListener('input', calculateDifference);
-  </script>
+ 
+<script>
+  function calculateDifference() {
+    const newBudget = parseFloat(document.getElementById("Budget").value);
+    const oldBudget = <%= found.budget %>;
+    const remaining = <%= found.remainingBudget %>;
+
+    const newRemaining = newBudget - oldBudget + remaining;
+    document.getElementById("remBudget").value = newRemaining;
+  }
+</script>
 
   <%- include("partials/footer"); %>

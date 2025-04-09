@@ -7,7 +7,6 @@
       <h3><i class="fas fa-user-plus"></i> Create Profile</h3>
 
       <form action="/profile" method="post" id="profile-form">
-
         <p id="message"></p>
 
         <input
@@ -17,6 +16,8 @@
           placeholder="Enter Profile Name"
           required
         />
+
+        <input class="month-input" type="month" id="month" name="month" required/>
 
         <div class="money-input">
           <input
@@ -38,35 +39,41 @@
           />
         </div>
 
-          <button class="btn" type="submit" id="submitBtn">
+        <button class="btn" type="submit" id="submitBtn">
           <i class="fas fa-save"></i> Add Profile & Budget
         </button>
       </form>
     </div>
 
     <div class="main-profile-list">
-      <% if (Profiles.length > 0) { %> 
-        <% Profiles.forEach((founditem) => { %>
+      <% if (Profiles.length > 0) { %> <% Profiles.forEach((founditem) => { %>
 
       <div class="profile-list">
         <h2><i class="fas fa-user-circle"></i> <%= founditem.name %></h2>
         <h4>
           <i class="fas fa-money-bill-wave"></i> Income: <%= founditem.income %>
         </h4>
+        <h4>Month: <%= founditem.month %></h4>
         <h4><i class="fas fa-wallet"></i> Budget: <%= founditem.budget %></h4>
-        <h4><i class="fas fa-wallet"></i>Rem-Bud: <%= founditem.remainingBudget %></h4>
-       <div class="profile-btn">
-        <form action="/edit" method="post">
-          <button class="btn edit-btn" name="id" value="<%= founditem._id %>">
-            <i class="fas fa-edit"></i> Edit
-          </button>
-        </form>
-        <form action="/delete" method="post">
-          <button class="btn delete-btn" name="id" value="<%= founditem._id %> ">
-            <i class="fas fa-trash-alt"></i> Delete
-          </button>
-        </form>
-       </div>
+        <h4>
+          <i class="fas fa-wallet"></i>Rem-Bud: <%= founditem.remainingBudget %>
+        </h4>
+        <div class="profile-btn">
+          <form action="/edit" method="post">
+            <button class="btn edit-btn" name="id" value="<%= founditem._id %>">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+          </form>
+          <form action="/delete" method="post">
+            <button
+              class="btn delete-btn"
+              name="id"
+              value="<%= founditem._id %> "
+            >
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </form>
+        </div>
       </div>
       <% }); %> <% } else { %>
       <p>No profiles available. Create one above!</p>
@@ -77,32 +84,40 @@
 
 <script>
   function validateNumbers() {
-      let num1 = parseFloat(document.getElementById("num1").value);
-      let num2 = parseFloat(document.getElementById("num2").value);
-      let submitBtn = document.getElementById("submitBtn");
-      let message = document.getElementById("message");
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+    let submitBtn = document.getElementById("submitBtn");
+    let message = document.getElementById("message");
 
-      if (!isNaN(num1) && !isNaN(num2) && num1 < num2) {
-          submitBtn.disabled = true;
-          message.textContent = "Error: Budget cannot be greater than Income!";
-          message.style.color = "red";
-      } else {
-          submitBtn.disabled = false;
-          message.textContent = "";
-      }
+    if (!isNaN(num1) && !isNaN(num2) && num1 < num2) {
+      submitBtn.disabled = true;
+      message.textContent = "Error: Budget cannot be greater than Income!";
+      message.style.color = "red";
+    } else {
+      submitBtn.disabled = false;
+      message.textContent = "";
+    }
   }
 
   document.getElementById("num1").addEventListener("input", validateNumbers);
   document.getElementById("num2").addEventListener("input", validateNumbers);
 
-  document.getElementById("profile-form").addEventListener("submit", function (event) {
+  document
+    .getElementById("profile-form")
+    .addEventListener("submit", function (event) {
       if (document.getElementById("submitBtn").disabled) {
-          event.preventDefault(); // Prevents form submission
-          alert("Please correct the error before submitting.");
+        event.preventDefault(); // Prevents form submission
+        alert("Please correct the error before submitting.");
       }
-  });
+    });
 </script>
 
+<script>
+  const monthInput = document.getElementById("month");
+  const today = new Date();
+  const currentMonth = today.toISOString().slice(0, 7); // Format: "YYYY-MM"
+  monthInput.value = currentMonth;
+</script>
 
 
 <%- include("partials/footer"); %>
