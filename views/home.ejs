@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style2.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <!-- Loading Animation -->
+    <div class="loader-container" id="loader">
+      <div class="loader">
+        <div class="loader-coin">
+          <div class="loader-coin-face">$</div>
+          <div class="loader-coin-face">$</div>
+        </div>
+        <div class="loader-text"><span class="typing-cursor"></span></div>
+        <div class="loader-progress">
+          <div class="loader-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <nav class="navbar" id="top">
+        <div class="logo">
+            <i class="fas fa-wallet"></i>
+            ExpenseTracker
+        </div>
+        <div class="nav-links">
+            <a href="/expense"><i class="fas fa-plus-circle"></i> Expense</a>
+           <a href="/profile"><i class="fas fa-user-plus"></i> Profile & Budget</a>
+            <button class="cta-button"  onclick="window.location.href='/signin'">Get Started</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge">
+                <i class="fas fa-star"></i>
+                Trusted by 50,000+ users worldwide
+            </div>
+            <h1>Take Control of Your <span class="gradient-text">Finances</span></h1>
+            <p class="hero-subtitle">Track expenses, set budgets, and watch your savings grow with our intuitive expense tracker.</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>30%</h3>
+                    <p>Average Savings</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>50K+</h3>
+                    <p>Active Users</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>$2M+</h3>
+                    <p>Saved by Users</p>
+                </div>
+            </div>
+            <div class="cta-buttons">
+                <button class="primary-button" onclick="window.location.href='/signin'">
+                    <i class="fas fa-rocket"></i>
+                    Start For Free 
+                </button>
+                <button class="secondary-button">
+                    <i class="fas fa-play"></i>
+                    Contact Us
+                </button>
+            </div>
+            <!-- <div class="trust-badges">
+                <img src="https://placehold.co/100x30" alt="Trust Badge 1">
+                <img src="https://placehold.co/100x30" alt="Trust Badge 2">
+                <img src="https://placehold.co/100x30" alt="Trust Badge 3">
+            </div> -->
+        </div>
+        <div class="hero-image">
+            <div class="image-container">
+                <img src="https://clockify.me/blog/wp-content/uploads/2024/09/Smart-Ways-for-Monthly-Expense-Tracking-cover.jpg" alt="Budget Dashboard Preview">
+                <div class="floating-card card-1">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Budget Goal Achieved!</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Monthly Overview</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get in Touch Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <div class="contact-content">
+                <div class="contact-header">
+                    <h2>Get in <span class="gradient-text">Touch</span></h2>
+                    <p class="contact-subtitle">Have questions or feedback? We'd love to hear from you!</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h3>Our Location</h3>
+                            <p>123 Finance Street<br>New York, NY 10001</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h3>Phone Number</h3>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h3>Email Address</h3>
+                            <p>support@expensetracker.com</p>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contactForm" action="/contact" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <span class="form-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                            <span class="form-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Subject" required>
+                            <span class="form-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                            <span class="form-error"></span>
+                        </div>
+                        <button type="submit" class="primary-button">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                        <div class="form-status"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-wallet"></i>
+                        ExpenseTracker
+                    </div>
+                    <p>Take control of your finances with our intuitive expense tracking solution.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#top">Home</a></li>
+                        <li><a href="/expense">Expenses</a></li>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/signin">Sign In</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#">Expense Tracking</a></li>
+                        <li><a href="#">Budget Planning</a></li>
+                        <li><a href="#">Financial Reports</a></li>
+                        <li><a href="#">Savings Goals</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get updates on new features and tips.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit" class="newsletter-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ExpenseTracker. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <%- include ("partials/footer"); %>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const formData = new FormData(form);
+            const formStatus = form.querySelector('.form-status');
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            // Disable submit button and show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            // Reset previous errors
+            form.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+            
+            try {
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: formData.get('name'),
+                        email: formData.get('email'),
+                        subject: formData.get('subject'),
+                        message: formData.get('message')
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = 'Message sent successfully! We\'ll get back to you soon.';
+                    form.reset();
+                } else {
+                    throw new Error(data.message || 'Something went wrong');
+                }
+            } catch (error) {
+                formStatus.className = 'form-status error';
+                formStatus.textContent = error.message;
+            } finally {
+                // Re-enable submit button and restore original text
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            }
+        });
+
+        // Form validation
+        const formInputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
+        
+        formInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateInput(this);
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.parentElement.classList.contains('error')) {
+                    validateInput(this);
+                }
+            });
+        });
+
+        function validateInput(input) {
+            const formGroup = input.parentElement;
+            const errorElement = formGroup.querySelector('.form-error');
+            
+            if (input.required && !input.value.trim()) {
+                formGroup.classList.add('error');
+                errorElement.textContent = 'This field is required';
+                return false;
+            }
+            
+            if (input.type === 'email' && input.value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(input.value)) {
+                    formGroup.classList.add('error');
+                    errorElement.textContent = 'Please enter a valid email address';
+                    return false;
+                }
+            }
+            
+            formGroup.classList.remove('error');
+            return true;
+        }
+    </script>
+
+  </body>
+</html>

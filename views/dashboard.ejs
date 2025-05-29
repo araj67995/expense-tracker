@@ -1,19 +1,5 @@
 <%- include ("partials/header"); %>
 
-<!-- Loading Animation -->
-<div class="loader-container" id="loader">
-  <div class="loader">
-    <div class="loader-coin">
-      <div class="loader-coin-face">$</div>
-      <div class="loader-coin-face">$</div>
-    </div>
-    <div class="loader-text"><span class="typing-cursor"></span></div>
-    <div class="loader-progress">
-      <div class="loader-progress-bar"></div>
-    </div>
-  </div>
-</div>
-
 <!-- Money Rain Container -->
 <div class="money-rain" id="money-rain"></div>
 
@@ -21,16 +7,21 @@
 <div id="flying-money-container"></div>
 
 <div class="Dashboard fade-in">
-  <div class="month-display">
-    <div class="shimmer"></div>
-    <label for="month"><i class="fas fa-calendar-alt"></i> Select Month:</label>
-    <input class="month-input" type="month" id="month" name="month" />
-    <div class="month-icons">
-      <i class="fas fa-chart-line"></i>
-      <i class="fas fa-coins"></i>
-      <i class="fas fa-money-bill-wave"></i>
+  <form method="post" action="/month">
+    <div class="month-display">
+      <div class="shimmer"></div>
+      <label for="month"><i class="fas fa-calendar-alt"></i> Select Month:</label>
+      <input class="month-input" type="month" id="month" name="month" required />
+      <div class="month-icons">
+        <i class="fas fa-chart-line"></i>
+        <i class="fas fa-coins"></i>
+        <i class="fas fa-money-bill-wave"></i>
+      </div>
+      <button type="submit" class="month-btn">Check</button>
     </div>
-  </div>
+  </form>
+
+
 
   <!-- PROFILE  -->
   <% profiles.forEach(profile => { %>
