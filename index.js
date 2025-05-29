@@ -364,8 +364,8 @@ app.post("/month", isLoggedIn, async (req, res) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'araj67995@gmail.com',
-        pass: 'ktoj lusg lbtd egze'
+        user: process.env.EMAIL,
+        pass: process.env.PASS
     }
 });
 
@@ -375,8 +375,8 @@ app.post('/contact', async (req, res) => {
 
         // Email to admin
         const adminMailOptions = {
-            from: 'araj67995@gmail.com',
-            to: 'araj67995@gmail.com',
+            from: process.env.EMAIL,
+            to: process.env.EMAIL,
             subject: `New Contact Form Submission: ${subject}`,
             html: `
                 <h2>New Contact Form Submission</h2>
@@ -390,7 +390,7 @@ app.post('/contact', async (req, res) => {
 
         // Confirmation email to user
         const userMailOptions = {
-            from: 'araj67995@gmail.com',
+            from: process.env.EMAIL,
             to: email,
             subject: 'Thank you for contacting ExpenseTracker',
             html: `
