@@ -1,13 +1,3 @@
-# 👨‍💻 Author
-
-**Name:** Aditya Raj
-
-**Intern ID:** CITS5546
-
-**GitHub:** https://github.com/araj67995
-
-⭐ If you found this project helpful, please consider giving it a **Star** on GitHub!
-
 # 💰 Expense Tracker
 
 A modern and responsive **Expense Tracker Web Application** built with **Node.js, Express.js, MongoDB, EJS, HTML, CSS, and JavaScript**. It helps users manage their monthly budgets, track expenses, analyze spending habits, and monitor remaining savings through interactive dashboards.
@@ -283,13 +273,12 @@ git push origin feature-name
 This project is licensed under the MIT License.
 
 ---
-
 # 👨‍💻 Author
 
-**Aditya Raj**
+**Name:** Aditya Raj
 
-GitHub: https://github.com/araj67995
+**Intern ID:** CITS5546
 
----
+**GitHub:** https://github.com/araj67995
 
-## ⭐ If you like this project, don't forget to Star the repository!
+⭐ If you found this project helpful, please consider giving it a **Star** on GitHub!
