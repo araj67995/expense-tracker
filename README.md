@@ -1,14 +1,10 @@
----
-
 # 👨‍💻 Author
 
 **Name:** Aditya Raj
 
-**Int ID:** CITS5546
+**Student ID:** CITS5546
 
-GitHub: https://github.com/araj67995
-
----
+**GitHub:** https://github.com/araj67995
 
 ⭐ If you found this project helpful, please consider giving it a **Star** on GitHub!
 
