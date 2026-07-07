@@ -133,7 +133,7 @@ ExpenseTracker/
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/expense-tracker.git
+git clone https://github.com/araj67995/expense-tracker.git
 ```
 
 Move to project folder
