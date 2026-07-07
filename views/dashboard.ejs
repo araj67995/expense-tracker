@@ -83,7 +83,7 @@
         const budget = <%= profile.budget %>;
         const remaining = <%= profile.remainingBudget %>;
         const percent = (remaining / budget) * 100;
-        const offset = circumference - (percent / 100) * circumference;
+        const offset = circumference - (percent / 100) *  circumference;
 
         const circle = document.getElementById("progress-<%= profile.name.replace(/\s/g, '') %>");
         circle.style.strokeDasharray = `${circumference} ${circumference}`;

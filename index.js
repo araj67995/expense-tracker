@@ -373,7 +373,7 @@ app.post('/contact', async (req, res) => {
     try {
         const { name, email, subject, message } = req.body;
 
-        // Email to admin
+        // Email to  admin
         const adminMailOptions = {
             from: process.env.EMAIL,
             to: process.env.EMAIL,
