@@ -2,7 +2,7 @@
 
 **Name:** Aditya Raj
 
-**Student ID:** CITS5546
+**Intern ID:** CITS5546
 
 **GitHub:** https://github.com/araj67995
 
