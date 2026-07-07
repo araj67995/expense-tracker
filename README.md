@@ -1,4 +1,15 @@
-name: aditya raj id: CITS5546
+---
+
+# 👨‍💻 Author
+
+**Name:** Aditya Raj  
+**Int ID:** CITS5546
+
+GitHub: https://github.com/araj67995
+
+---
+
+⭐ If you found this project helpful, please consider giving it a **Star** on GitHub!
 
 # 💰 Expense Tracker
 
@@ -26,7 +37,7 @@ A modern and responsive **Expense Tracker Web Application** built with **Node.js
 
 ### ➕ Add Expense
 
-![Add Expense](public/screenshots/add-expense.png)
+![Add Expense](public/screenshots/expense.png)
 
 ### 👤 Create Profile & Budget
 
